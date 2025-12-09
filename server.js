@@ -3,10 +3,13 @@ const server = jsonServer.create();
 const router = jsonServer.router("db.json");
 const middlewares = jsonServer.defaults();
 
+// Apply default middlewares (logger, static, cors & no-cache)
 server.use(middlewares);
+
+// Parse JSON request body
 server.use(jsonServer.bodyParser);
 
-// Enable CORS
+// Enable full CORS
 server.use((req, res, next) => {
   res.header("Access-Control-Allow-Origin", "*");
   res.header(
@@ -17,8 +20,11 @@ server.use((req, res, next) => {
   next();
 });
 
-// Start server
+// Use the router (db.json endpoints)
 server.use(router);
-server.listen(5000, () => {
-  console.log("RoomieRent JSON Server is running on port 5000");
+
+// Start the server
+const PORT = 10000;
+server.listen(PORT, () => {
+  console.log(`RoomieRent JSON Server is running on port ${PORT}`);
 });
